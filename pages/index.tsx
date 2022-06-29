@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useRef, useState} from 'react'
+import {FC, useCallback, useEffect, useRef, useState} from 'react'
 import {Alert, Box, CircularProgress, Typography} from "@mui/material"
 import {Form} from "../components/Form";
 
@@ -34,9 +34,9 @@ let Home = () => {
             body: JSON.stringify(data)
          })
          let result = await res.json()
-         if(res.ok){
+         if (res.ok) {
             setAlertType("success")
-         }else{
+         } else {
             setAlertType("error")
          }
          setAlertMessage(JSON.stringify(result))
@@ -51,16 +51,16 @@ let Home = () => {
 
    useEffect(() => {
       alertTimeout.current = setTimeout(() => {
-         if(showAlert) {
+         if (showAlert) {
             setShowAlert(false)
             setAlertMessage("")
             setAlertType("")
          }
-      },8000)
+      }, 8000)
       return () => {
          clearTimeout(alertTimeout.current)
       }
-   },[showAlert])
+   }, [showAlert])
 
    return <Box sx={{
       display: "flex",
@@ -72,15 +72,7 @@ let Home = () => {
       padding: "10px",
       position: "relative"
    }}>
-      {showAlert && alertType &&
-      <Alert sx={{
-         position: "absolute",
-         top: 10,
-         left: 10,
-         zIndex: 1000
-      }} variant="filled" severity={alertType}>
-         {alertMessage}
-      </Alert>}
+      <CustomAlert alertMessage={alertMessage} alertType={alertType} showAlert={showAlert}/>
       <Box
          sx={{
             background: "#323232",
@@ -94,20 +86,7 @@ let Home = () => {
             position: "relative"
          }}
       >
-         {pending && <Box sx={{
-            position: "absolute",
-            borderRadius: "20px",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "#333",
-            opacity: "0.7",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 100
-         }}><CircularProgress/></Box>}
+         <Pending pending={pending}/>
          <Box
             sx={{
                marginBottom: "25px"
@@ -123,3 +102,42 @@ let Home = () => {
 
 }
 export default Home
+
+let Pending: FC<{ pending: boolean }> = ({pending}) => {
+   return <>
+      {pending && <Box sx={{
+         position: "absolute",
+         borderRadius: "20px",
+         top: 0,
+         left: 0,
+         width: "100%",
+         height: "100%",
+         backgroundColor: "#333",
+         opacity: "0.7",
+         display: "flex",
+         alignItems: "center",
+         justifyContent: "center",
+         zIndex: 100
+      }}><CircularProgress/></Box>}
+   </>
+}
+
+interface ICustomAlert {
+   showAlert: boolean
+   alertType: "error" | "success" | ""
+   alertMessage: string
+}
+
+let CustomAlert: FC<ICustomAlert> = ({showAlert, alertType, alertMessage}) => {
+   return <>
+      {showAlert && alertType &&
+      <Alert sx={{
+         position: "absolute",
+         top: 10,
+         left: 10,
+         zIndex: 1000
+      }} variant="filled" severity={alertType}>
+         {alertMessage}
+      </Alert>}
+   </>
+}

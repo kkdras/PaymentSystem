@@ -1,12 +1,14 @@
 import InputMask from "react-input-mask";
 import {Controller} from "react-hook-form";
-import {FC} from "react";
+import {FC, ReactNode} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
+
 interface ICvv {
    control: any,
    errors: any
 }
-export let EplDate:FC<ICvv> = ({control,errors}) => {
+
+export let EplDate: FC<ICvv> = ({control, errors}) => {
    return <Controller
       name="expirationDate"
       control={control}
@@ -20,33 +22,33 @@ export let EplDate:FC<ICvv> = ({control,errors}) => {
          <InputMask
             {...field}
             mask="99/9999"
-            maskChar={""}
-            label={
-               errors.expirationDate && errors.expirationDate.message ||
-               "Срок действия карты"
-            }
-            error={!!errors.expirationDate}
+            maskPlaceholder={""}
          >
-            {(props) => {
-               return <BootstrapInput
-                  variant="filled"
-                  {...props}
-                  sx={{
-                     '& .MuiInputBase-input': {
-                        fontSize: 18,
-                        letterSpacing: 2
-                     },
-                     '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': {
-                        fontSize: 18,
-                     },
-                     gridColumn: {
-                        sm: "7/11",
-                        xs: "1/11"
-                     },
-                     gridRow: "2/3"
-                  }}
-               />
-            }}
+            <BootstrapInput
+               variant="filled"
+
+               label={
+                  errors.expirationDate && errors.expirationDate.message ||
+                  "Срок действия карты"
+               }
+               error={!!errors.expirationDate}
+
+               sx={{
+                  '& .MuiInputBase-input': {
+                     fontSize: 18,
+                     letterSpacing: 2
+                  },
+                  '& .MuiInputLabel-root:not(.MuiInputLabel-shrink)': {
+                     fontSize: 18,
+                  },
+                  gridColumn: {
+                     sm: "7/11",
+                     xs: "1/11"
+                  },
+                  gridRow: "2/3"
+               }}
+            />
+
          </InputMask>
       )}
    />
