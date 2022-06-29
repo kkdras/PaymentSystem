@@ -1,6 +1,8 @@
-import {FC, useCallback, useEffect, useRef, useState} from 'react'
-import {Alert, Box, CircularProgress, Typography} from "@mui/material"
-import {Form} from "../components/Form";
+import {useCallback, useEffect, useRef, useState} from 'react'
+import {Box, Typography} from "@mui/material"
+import Form from "../components/Form";
+import Pending from "../components/helpers/Pending";
+import CustomAlert from "../components/helpers/Alert";
 
 
 export interface IFullForm {
@@ -25,7 +27,7 @@ let Home = () => {
       let res
       setPending(true)
       try {
-         res = await fetch("http://localhost:3000/api/card", {
+         res = await fetch("/api/card", {
             method: 'POST',
             headers: {
                'Content-Type': 'application/json;charset=utf-8',
@@ -33,13 +35,13 @@ let Home = () => {
             },
             body: JSON.stringify(data)
          })
-         let result = await res.json()
+         let result = await res.text()
          if (res.ok) {
             setAlertType("success")
          } else {
             setAlertType("error")
          }
-         setAlertMessage(JSON.stringify(result))
+         setAlertMessage(result)
       } catch (e) {
          setAlertMessage(JSON.stringify(e.message))
          setAlertType("error")
@@ -103,41 +105,5 @@ let Home = () => {
 }
 export default Home
 
-let Pending: FC<{ pending: boolean }> = ({pending}) => {
-   return <>
-      {pending && <Box sx={{
-         position: "absolute",
-         borderRadius: "20px",
-         top: 0,
-         left: 0,
-         width: "100%",
-         height: "100%",
-         backgroundColor: "#333",
-         opacity: "0.7",
-         display: "flex",
-         alignItems: "center",
-         justifyContent: "center",
-         zIndex: 100
-      }}><CircularProgress/></Box>}
-   </>
-}
 
-interface ICustomAlert {
-   showAlert: boolean
-   alertType: "error" | "success" | ""
-   alertMessage: string
-}
 
-let CustomAlert: FC<ICustomAlert> = ({showAlert, alertType, alertMessage}) => {
-   return <>
-      {showAlert && alertType &&
-      <Alert sx={{
-         position: "absolute",
-         top: 10,
-         left: 10,
-         zIndex: 1000
-      }} variant="filled" severity={alertType}>
-         {alertMessage}
-      </Alert>}
-   </>
-}

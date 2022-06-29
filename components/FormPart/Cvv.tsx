@@ -1,14 +1,12 @@
 import InputMask from "react-input-mask";
 import {Controller} from "react-hook-form";
-import {FC} from "react";
+import {FC, memo} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
+import {ICustomInput} from "../helpers/types";
 
-interface ICvv {
-   control: any,
-   errors: any
-}
 
-export let Cvv: FC<ICvv> = ({control, errors}) => {
+let Cvv: FC<ICustomInput> = ({control, isError, errorMessage}) => {
+
    return <Controller
       name="CVV"
       control={control}
@@ -21,16 +19,14 @@ export let Cvv: FC<ICvv> = ({control, errors}) => {
       render={({field}) => (
          <InputMask
             {...field}
-
             mask="999"
             alwaysShowMask={true}
-
          >
 
             <BootstrapInput
-               error={!!errors.CVV}
+               error={isError}
                label={
-                  errors.CVV && errors.CVV.message ||
+                  errorMessage ||
                   "CVV"
                }
                variant="filled"
@@ -57,3 +53,5 @@ export let Cvv: FC<ICvv> = ({control, errors}) => {
       )}
    />
 }
+
+export default memo(Cvv)

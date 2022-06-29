@@ -1,14 +1,13 @@
 import InputMask from "react-input-mask";
 import {Controller} from "react-hook-form";
-import {FC, ReactNode} from "react";
+import {FC, memo} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
+import {ICustomInput} from "../helpers/types";
 
-interface ICvv {
-   control: any,
-   errors: any
-}
 
-export let EplDate: FC<ICvv> = ({control, errors}) => {
+
+let ExpDate: FC<ICustomInput> = ({control, isError, errorMessage}) => {
+
    return <Controller
       name="expirationDate"
       control={control}
@@ -28,10 +27,10 @@ export let EplDate: FC<ICvv> = ({control, errors}) => {
                variant="filled"
 
                label={
-                  errors.expirationDate && errors.expirationDate.message ||
+                  errorMessage ||
                   "Срок действия карты"
                }
-               error={!!errors.expirationDate}
+               error={isError}
 
                sx={{
                   '& .MuiInputBase-input': {
@@ -53,3 +52,5 @@ export let EplDate: FC<ICvv> = ({control, errors}) => {
       )}
    />
 }
+
+export default memo(ExpDate)

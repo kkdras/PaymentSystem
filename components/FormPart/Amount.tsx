@@ -1,13 +1,9 @@
 import {Controller} from "react-hook-form";
-import {FC} from "react";
+import {FC, memo} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
+import {ICustomInput} from "../helpers/types";
 
-interface IAmount {
-   control: any,
-   errors: any
-}
-
-export let Amount:FC<IAmount> = ({control, errors}) => {
+let Amount:FC<ICustomInput> = ({control, isError, errorMessage}) => {
    return <Controller
       name="amount"
       control={control}
@@ -18,11 +14,11 @@ export let Amount:FC<IAmount> = ({control, errors}) => {
       }}
       render={({field}) => (
          <BootstrapInput
-            error={!!errors.amount}
+            error={isError}
             {...field}
             variant="filled"
             label={
-               errors.amount && errors.amount.message ||
+               errorMessage ||
                "Amount"
             }
             sx={{
@@ -46,3 +42,5 @@ export let Amount:FC<IAmount> = ({control, errors}) => {
       )}
    />
 }
+
+export default memo(Amount)

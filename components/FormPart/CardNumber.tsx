@@ -1,46 +1,15 @@
 import InputMask from "react-input-mask";
 import {Controller} from "react-hook-form";
-import {FC} from "react";
+import {FC, memo} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
-
-interface ICvv {
-   control: any,
-   errors: any
-}
-
-let splitByFour = (str, placeholder) => {
-   let newString = ""
-   for (let i = 0; i < 16; i++) {
-      if (i % 4 === 0 && i) newString += " "
-      if (str[i]) newString += str[i]
-      else newString += placeholder
-   }
-   return newString
-}
+import {maskBeforeOnChange} from "../helpers/functions";
+import {ICustomInput} from "../helpers/types";
 
 
-let maskBeforeOnChange = ({nextState:newState, previousState:oldState}): {value:string, selection: any} => {
-
-   if(newState && oldState) {
-      let newClearValue = newState.value.replace(/[^0-9]/g, '')
-      let oldClearValue = oldState.value.replace(/[^0-9]/g, '')
-      let range = newClearValue.length - oldClearValue.length
-      if (0 > range) {
-         let newValue = oldClearValue.slice(0, newClearValue.length)
-         return {
-            value: splitByFour(newValue, " "),
-            selection: {
-               start: newValue.length + Math.floor(newValue.length / 4),
-               end: newValue.length + Math.floor(newValue.length / 4)
-            }
-         }
-      }
-   }
-   return newState
-}
 
 
-export let CardNumber: FC<ICvv> = ({control, errors}) => {
+let CardNumber: FC<ICustomInput> = ({control, isError, errorMessage}) => {
+
    return <Controller
       name="cardNumber"
       control={control}
@@ -53,7 +22,6 @@ export let CardNumber: FC<ICvv> = ({control, errors}) => {
       render={({field}) => {
          return (
             <InputMask
-
                mask="9999 9999 9999 9999"
                {...field}
                maskPlaceholder={""}
@@ -61,10 +29,10 @@ export let CardNumber: FC<ICvv> = ({control, errors}) => {
             >
                <BootstrapInput
                   label={
-                     errors.cardNumber && errors.cardNumber.message ||
+                     errorMessage ||
                      "Номер карты"
                   }
-                  error={!!errors.cardNumber}
+                  error={isError}
                   variant="filled"
 
                   sx={{
@@ -82,3 +50,5 @@ export let CardNumber: FC<ICvv> = ({control, errors}) => {
       }}
    />
 }
+
+export default memo(CardNumber)
