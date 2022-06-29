@@ -3,7 +3,7 @@ import {Controller} from "react-hook-form";
 import {FC, memo} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
 import {maskBeforeOnChange} from "../helpers/functions";
-import {ICustomInput} from "../helpers/types";
+import {ICustomInput} from "../../src/types/types";
 
 
 

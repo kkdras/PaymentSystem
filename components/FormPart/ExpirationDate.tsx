@@ -2,7 +2,7 @@ import InputMask from "react-input-mask";
 import {Controller} from "react-hook-form";
 import {FC, memo} from "react";
 import {BootstrapInput} from "../styledComponents/BootstrapInput";
-import {ICustomInput} from "../helpers/types";
+import {ICustomInput} from "../../src/types/types";
 
 
 
