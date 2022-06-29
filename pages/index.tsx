@@ -72,7 +72,8 @@ let Home = () => {
       minWidth: "100%",
       background: "linear-gradient(45deg,#cc2b5e,#753a88)",
       padding: "10px",
-      position: "relative"
+      position: "relative",
+      overflowX: "hidden"
    }}>
       <CustomAlert alertMessage={alertMessage} alertType={alertType} showAlert={showAlert}/>
       <Box
