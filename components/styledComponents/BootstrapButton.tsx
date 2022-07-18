@@ -1,5 +1,5 @@
-import {styled} from "@mui/system";
-import {Button} from "@mui/material";
+import { styled } from "@mui/system";
+import { Button } from "@mui/material";
 
 export let BootstrapButton = styled(Button)({
    boxShadow: "5px 5px 5px -2px rgba(155, 49, 1, 0.6)",
@@ -15,9 +15,11 @@ export let BootstrapButton = styled(Button)({
    letterSpacing: "2px",
    width: "auto",
    color: "#fff",
-   "&:hover": {
-      backgroundPosition: "right",
-      boxShadow: "-4px -3px 5px -2px rgba(0, 144, 255, 0.57)"
+   "@media (any-hover: hover)": {
+      "&:hover": {
+         backgroundPosition: "right",
+         boxShadow: "-4px -3px 5px -2px rgba(0, 144, 255, 0.57)"
+      },
    },
    '&::after': {
       content: '""',
